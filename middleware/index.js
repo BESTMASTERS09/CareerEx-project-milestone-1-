@@ -10,7 +10,7 @@ const validateRegister =  (req, res, next)=>{
     }
 
      if(!password){
-        errors.push("pleaser add correct password")
+        error.push("pleaser add correct password")
     }
 
     if(error.length > 0){
