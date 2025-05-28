@@ -8,6 +8,7 @@ const Auth = require("./models/authModel");
 const pro = require("./models/propertymodel");
 const saveProperty = require("./models/savepropertymodel");
 const cors = require("cors")
+const routes = require("./routes")
 
 
 dotenv.config();
@@ -29,35 +30,10 @@ mongoose.connect(process.env.MONGODB_URL)
     app.listen(PORT, ()=>{
         console.log(`server is running on Port ${PORT}`)
     })
-})
+});
 
 
-//register
-app
+
+app.use(routes)
 
 
-app
-
-//forgot password
-app                                                                                                                                                                                                                                                                  
-
-//reset password
-app
-
-//add new property listing(agent only)
-app
-
-//save a property
-app
-
-//get save property
-app
-
-//delete save property
-app
-
-//get all property
-app
-
-//get a specfic property by id
-app
