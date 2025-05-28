@@ -6,7 +6,7 @@ const validateRegister =  (req, res, next)=>{
     const error = []
 
     if(!email){
-        errors.push("pleaser add your email")
+        error.push("pleaser add your email")
     }
 
      if(!password){

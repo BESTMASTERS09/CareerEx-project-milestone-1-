@@ -7,15 +7,16 @@ const jwt = require("jsonwebtoken")
 const Auth = require("./models/authModel");
 const pro = require("./models/propertymodel");
 const saveProperty = require("./models/savepropertymodel");
-const { sendForgotPasswordEmail, validEmail  } = require("./sendMail");
-const { handleGetAllProperty, handleUserSignIn, handleNewProperty, handleUserLogIn, handleResetPassword, handleForgotPassword, handleSavingProperty, handleGetSaveProperty, handleRemoveSaveProperty, handleUserViewAllProperty, handleUserViewByPropertyId } = require("./controllers");
-const { validateRegister, authorization, authorizeRole, } = require("./middleware");
+const cors = require("cors")
+
+
 dotenv.config();
 
 
 const app = express();
 
-app.use(express.json())
+app.use(express.json());
+app.use(cors())
 
 const PORT = process.env.PORT || 6487;
  
@@ -32,32 +33,31 @@ mongoose.connect(process.env.MONGODB_URL)
 
 
 //register
-app.post("/sign-up", validateRegister, handleUserSignIn )
+app
 
 
-//login
-app.post("/login", authorization,  handleUserLogIn)
+app
 
 //forgot password
-app.post("/forgot-password", handleForgotPassword);                                                                                                                                                                                                                                                                     
+app                                                                                                                                                                                                                                                                  
 
 //reset password
-app.patch("/reset-password",handleResetPassword ) 
+app
 
 //add new property listing(agent only)
-app.post("/new-property", authorizeRole,  handleNewProperty)
+app
 
 //save a property
-app.post("/saved", validateRegister, handleSavingProperty)
+app
 
 //get save property
-app.get("/saved", validateRegister ,handleGetSaveProperty)
+app
 
 //delete save property
-app.delete("/saved/:id", validateRegister, handleRemoveSaveProperty)
+app
 
 //get all property
-app.get("/properties",validateRegister,handleUserViewAllProperty )
+app
 
 //get a specfic property by id
-app.get("/property/:id",validateRegister, handleUserViewByPropertyId)
+app
