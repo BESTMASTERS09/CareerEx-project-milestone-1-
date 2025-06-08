@@ -1,9 +1,9 @@
+const jwt = require("jsonwebtoken")
 const Auth = require("../models/authModel")
 const saveProperty = require("../models/savepropertymodel")
-const { validEmail } = require("../sendMail")
+const { validEmail, sendForgotPasswordEmail } = require("../sendMail")
 const { findUserService } = require("../service")
-
-
+const bcrypt = require("bcryptjs")
 
 
 const handleUserSignIn = async(req,res)=>{
@@ -80,7 +80,7 @@ const handleUserLogIn = async (req, res)=>{
     const  accessToken = jwt.sign(
         {id: user?._id},
         process.env.ACCESS_TOKEN,
-        {expiresIn: "5m"}
+        {expiresIn: "7h"}
     )
 
     const refreshToken = jwt.sign(
@@ -111,7 +111,7 @@ const handleUserLogIn = async (req, res)=>{
 
 const handleForgotPassword =  async (req ,res)=> {
 
-    const { email,userName } = req.body;
+    const { email,fullName } = req.body;
 
 
     const user = await Auth.findOne({email});
@@ -155,15 +155,19 @@ const handleResetPassword = async (req, res)=> {
 const  handleNewProperty =  async (req, res) => {
 
     try {
-        const {title,price, location, agent} = req.body
+        const {title,price, location,agent} = req.body
 
-        if(!title || !price ||!location || !agent){
+        if(!title || !price ||!locationn || !agent ){
             return res.status(400).json({message:"please enter all required field"})
         }
 
-        const newProperty = new property({title,price, location, agent });
+        const newProperty = new property({
+            title,
+            price,
+            location,
+            agent:req.user.userId});
 
-        await property.save();
+        await newProperty.save();
         res.send(property);
 
         
@@ -239,18 +243,6 @@ const handleRemoveSaveProperty = async (req, res) => {
     
 }
 
-const handleUserViewAllProperty =  async (req, res) => {
-    try {
-        const properties = await property.find();
-        res.status(200).json({message:"search successful"})
-
-    } catch (error) {
-        res.status(400).json({message:"error message"})
-        
-    }
-    
-}
-
 const handleUserViewByPropertyId = async (req, res) => {
 
     try {
@@ -278,6 +270,5 @@ module.exports = {
    handleSavingProperty,
    handleGetSaveProperty,
    handleRemoveSaveProperty,
-   handleUserViewAllProperty,
    handleUserViewByPropertyId
 }

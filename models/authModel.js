@@ -5,7 +5,7 @@ const authSchem =new mongoose.Schema({
     fullName:{type:String, require:true},
     email:{type:String, require:true},
     password:{type:String, require:true},
-    role:{type:Number, enum:[`agent`,`user`],default:`user`},
+    role:{type:String, enum:[`agent`,`user`],default:`user`},
     verified:{type:Boolean, default:false}
 }, {timestamps: true} )
     

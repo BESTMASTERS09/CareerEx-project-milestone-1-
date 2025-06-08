@@ -4,7 +4,7 @@ const Auth = require("../models/authModel")
 
 const validateRegister =  (req, res, next)=>{
 
-    const { fullName, email, password, role} = req.body
+    const { fullName, email, password, } = req.body
 
     const error = []
 
@@ -29,7 +29,7 @@ const authorization = async (req, res, next)=>{
           const token = req.header("Authorization")
 
           if(!token){
-            return res.status(401).json({message:"please login!"})
+            return res.status(401).json({message:"please submit details!"})
           }
 
           const splitToken = token.split(" ")
@@ -39,7 +39,7 @@ const authorization = async (req, res, next)=>{
           const decoded = jwt.verify(realToken, `${process.env.ACCESS_TOKEN}`)
          
           if(!decoded){
-            return res.status(401).json({message:"please login!"})
+            return res.status(401).json({message:"please submit right details!"})
           }
 
           const user = await Auth.findById(decoded.id)
@@ -59,7 +59,7 @@ const authorization = async (req, res, next)=>{
 
 const authorizeRole = async (req, res, next) => {
 
-    if(!req.user){
+    if(!req.use){
         res.status(401).json({message:"please authorise."})
     }else if (req.user.role !== "agent") {
         res.status(403).json({message:"Access deniel"})
