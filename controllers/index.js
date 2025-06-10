@@ -4,6 +4,7 @@ const saveProperty = require("../models/savepropertymodel")
 const { validEmail, sendForgotPasswordEmail } = require("../sendMail")
 const { findUserService } = require("../service")
 const bcrypt = require("bcryptjs")
+const pro = require("../models/propertymodel")
 
 
 
@@ -152,7 +153,7 @@ const handleResetPassword = async (req, res)=> {
 
     res.status(200).json({message:"password reset6 successful."})
 }
-
+pro
 const  handleNewProperty =  async (req, res) => {
 
     try {
@@ -165,11 +166,12 @@ const  handleNewProperty =  async (req, res) => {
         }
 
          console.log(req.user._id, "body")
-         const newProperty  = new property({
+        
+         const newProperty  = new pro({
             title,
             price,
             location,
-            agent:agent || userId
+            agent:req.user._id
          })  
 
         await newProperty.save();  
