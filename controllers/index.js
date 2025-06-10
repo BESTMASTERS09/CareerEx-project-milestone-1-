@@ -190,11 +190,15 @@ const  handleNewProperty =  async (req, res) => {
 const handlePostSavedProperty = async (req, res) => {
 
     try {
-        const savedProperty = new SavedProperty({
-            user:req.user.userId,
-            property:req.body.propertyId
-        });
-        await savedProperty.save();
+      const {user, property} = req.body
+
+      if (!user || !property){
+        return res.status(400).json({message:"input user and property"})
+      }
+        const saveProperty = new saveProperty({
+            user,property
+        })
+        await saveProperty.save();
 
         res.status(200).json({message:"search successful"})
 

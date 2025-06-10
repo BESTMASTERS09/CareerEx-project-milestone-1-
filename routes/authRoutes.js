@@ -18,7 +18,7 @@ router.patch("/reset-password",handleResetPassword )
 
 router.post("/new-property",authorization, handleNewProperty)
 
-router.get("/saved",authorization,handlePostSavedProperty)
+router.post("/saved",authorization,handlePostSavedProperty)
 
 router.get("/saved/:id",authorization,handleGetSavedProperty)
 
