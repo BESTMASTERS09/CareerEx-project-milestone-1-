@@ -187,21 +187,32 @@ const  handleNewProperty =  async (req, res) => {
     
 }
 
-const handleSavingProperty = async (req, res) => {
+const handlePostSavedProperty = async (req, res) => {
+
     try {
-        await saveProperty.save();
-        res.status(200).json({message:"property save successful"})
-        
+        const savedProperty = new SavedProperty({
+            user:req.user.userId,
+            property:req.body.propertyId
+        });
+        await savedProperty.save();
+
+        res.status(200).json({message:"search successful"})
+
     } catch (error) {
-        res.status(400).json({message:"error message"})
+        res.status(400).json({massage:"error message"})
         
     }
     
 }
 
-const handleGetSaveProperty = async (req, res) => {
+const handleGetSavedProperty = async (req, res) => {
 
     try {
+        const savedProperty = new SavedProperty({
+            user:req.user.userId,
+            property:req.body.propertyId
+        });
+        await savedProperty.save();
 
         res.status(200).json({message:"search successful"})
 
@@ -216,7 +227,7 @@ const handleGetAllProperty = async (req,res) => {
 
     try {
 
-        const allProperty = await findPropertyService()
+    const allProperty = await pro.find();
 
         res.status(200).json({
             message:"successful",
@@ -250,7 +261,17 @@ const handleRemoveSaveProperty = async (req, res) => {
 const handleUserViewByPropertyId = async (req, res) => {
 
     try {
-         res.status(200).json({message: "search successful"})
+        const {id} = req.params
+
+        const Property = await pro.findById(id);
+        if(!property) {
+            return console.log({message:"search failed"})
+        }
+
+         res.status(200).json({
+            message: "search successful",
+        Property
+    });
     } catch (error) {
         res.status(400).json({message:"error message."})
         
@@ -270,8 +291,8 @@ module.exports = {
    handleUserLogIn,
    handleResetPassword,
    handleForgotPassword,
-   handleSavingProperty,
-   handleGetSaveProperty,
+   handleGetSavedProperty,
+   handlePostSavedProperty,
    handleRemoveSaveProperty,
    handleUserViewByPropertyId
 }

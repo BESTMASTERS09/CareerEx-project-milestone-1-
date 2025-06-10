@@ -1,7 +1,7 @@
 
 const express = require("express");
 const { authorization, validateRegister, authorizeRole } = require("../middleware");
-const { handleUserLogIn, handleUserSignIn, handleForgotPassword, handleResetPassword, handleNewProperty, handleSavingProperty, handleGetSaveProperty, handleRemoveSaveProperty, handleUserViewAllProperty, handleUserViewByPropertyId, handleGetAllProperty } = require("../controllers");
+const { handleUserLogIn, handleUserSignIn, handleForgotPassword, handleResetPassword, handleNewProperty, handleSavingProperty, handleGetSaveProperty, handleRemoveSaveProperty, handleUserViewAllProperty, handleUserViewByPropertyId, handleGetAllProperty, handlePostSavedProperty, handleGetSavedProperty } = require("../controllers");
 
 const router = express.Router()
 
@@ -18,15 +18,15 @@ router.patch("/reset-password",handleResetPassword )
 
 router.post("/new-property",authorization, handleNewProperty)
 
-router.post("/saved", validateRegister, handleSavingProperty)
+router.get("/saved",authorization,handlePostSavedProperty)
 
-router.get("/saved", validateRegister ,handleGetSaveProperty)
+router.get("/saved/:id",authorization,handleGetSavedProperty)
 
-router.delete("/saved/:id", validateRegister, handleRemoveSaveProperty)
+router.delete("/saved/:id",authorization, handleRemoveSaveProperty)
 
-router.get("/properties",validateRegister,handleGetAllProperty )
+router.get("/properties",authorization,handleGetAllProperty )
 
-router.get("/property/:id",validateRegister, handleUserViewByPropertyId)
+router.get("/property/:id",authorization, handleUserViewByPropertyId)
 
 
 
