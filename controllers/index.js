@@ -6,6 +6,7 @@ const { findUserService } = require("../service")
 const bcrypt = require("bcryptjs")
 
 
+
 const handleUserSignIn = async(req,res)=>{
 
     try {
@@ -111,7 +112,7 @@ const handleUserLogIn = async (req, res)=>{
 
 const handleForgotPassword =  async (req ,res)=> {
 
-    const { email,fullName } = req.body;
+    const { email } = req.body;
 
 
     const user = await Auth.findOne({email});
@@ -155,24 +156,30 @@ const handleResetPassword = async (req, res)=> {
 const  handleNewProperty =  async (req, res) => {
 
     try {
+        const userId = req.user._id
+    
         const {title,price, location,agent} = req.body
 
-        if(!title || !price ||!locationn || !agent ){
+        if(!title || !price ||!location || !agent){
             return res.status(400).json({message:"please enter all required field"})
         }
 
-        const newProperty = new property({
+         console.log(req.user._id, "body")
+         const newProperty  = new property({
             title,
             price,
             location,
-            agent:req.user.userId});
+            agent:agent || userId
+         })  
 
-        await newProperty.save();
-        res.send(property);
+        await newProperty.save();  
+
+        
+         res.send({message:"successful"});
 
         
     } catch (error) {
-        res.status(400).send(error)
+        res.status(400).json({message:"error from handleNewProperty"})
         
     }
     
@@ -180,10 +187,6 @@ const  handleNewProperty =  async (req, res) => {
 
 const handleSavingProperty = async (req, res) => {
     try {
-        const savedProperty = new SaveProperty({
-            user:req.user.userId, 
-            property:req.body.propertyId
-        });
         await saveProperty.save();
         res.status(200).json({message:"property save successful"})
         
@@ -197,7 +200,6 @@ const handleSavingProperty = async (req, res) => {
 const handleGetSaveProperty = async (req, res) => {
 
     try {
-        const savedProperties = await SaveProperty.find({user:req.user.userId}).populate("propert");
 
         res.status(200).json({message:"search successful"})
 
@@ -246,7 +248,6 @@ const handleRemoveSaveProperty = async (req, res) => {
 const handleUserViewByPropertyId = async (req, res) => {
 
     try {
-         const property = await Property.findById(req.params.id);
          res.status(200).json({message: "search successful"})
     } catch (error) {
         res.status(400).json({message:"error message."})
