@@ -1,10 +1,11 @@
 const jwt = require("jsonwebtoken")
 const Auth = require("../models/authModel")
 const SaveProperty = require("../models/savepropertymodel")
-const { validEmail, sendForgotPasswordEmail } = require("../sendMail")
+const { validEmail, sendForgotPasswordEmail } = require("../service/sendMail")
 const { findUserService } = require("../service")
 const bcrypt = require("bcryptjs")
 const pro = require("../models/propertymodel")
+const saveProperty = require("../models/savepropertymodel")
 
 
 
@@ -219,14 +220,7 @@ const handleGetSavedProperty = async (req, res) => {
             message:"search successful",
             allSavedProperty
         })
-        // const savedProperty = new SavedProperty({
-        //     user:req.user.userId,
-        //     property:req.body.propertyId
-        // });
-        // await savedProperty.save();
-
-        // res.status(200).json({message:"search successful"})
-
+       
     } catch (error) {
         res.status(400).json({massage:"error message"})
         
