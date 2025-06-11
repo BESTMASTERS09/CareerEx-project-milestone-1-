@@ -70,4 +70,4 @@ Returns a 400 error if an error occurs during the fetch operation.
 This project demonstrates foundational backend development skills, including API design, user authentication, and database integration.
 
 # API test documentation:
-https://orjiokechukwu.postman.co/workspace/orji-okechukwu's-Workspace~de916cf5-178b-4443-8d5f-2049665ec78e/collection/44250905-188cd8e1-53f8-4e2a-a5f4-17e5bd1aceac?action=share&creator=44250905
+https://documenter.getpostman.com/view/44250905/2sB2x5Hsu7
