@@ -32,6 +32,7 @@ mongoose.connect(process.env.MONGODB_URL)
     })
 });
 
+
 app.get("/", (req, res)=>{
     res.status(200).json({message:"WELCOME TO OUR REAL ESTATE FIRM BACKEND"})
 })
