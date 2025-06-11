@@ -20,7 +20,7 @@ router.post("/new-property",authorization, handleNewProperty)
 
 router.post("/saved",authorization,handlePostSavedProperty)
 
-router.get("/saved/:id",authorization,handleGetSavedProperty)
+router.get("/saved",authorization,handleGetSavedProperty)
 
 router.delete("/saved/:id",authorization, handleRemoveSaveProperty)
 

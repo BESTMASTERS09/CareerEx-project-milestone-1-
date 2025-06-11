@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken")
 const Auth = require("../models/authModel")
-const saveProperty = require("../models/savepropertymodel")
+const SaveProperty = require("../models/savepropertymodel")
 const { validEmail, sendForgotPasswordEmail } = require("../sendMail")
 const { findUserService } = require("../service")
 const bcrypt = require("bcryptjs")
@@ -195,12 +195,13 @@ const handlePostSavedProperty = async (req, res) => {
       if (!user || !property){
         return res.status(400).json({message:"input user and property"})
       }
-        const saveProperty = new saveProperty({
-            user,property
-        })
+        const saveProperty = new SaveProperty({
+            user:user,
+            property:property,
+        });
         await saveProperty.save();
 
-        res.status(200).json({message:"search successful"})
+        res.status(200).json({message:"data saved successfully"})
 
     } catch (error) {
         res.status(400).json({massage:"error message"})
@@ -212,13 +213,19 @@ const handlePostSavedProperty = async (req, res) => {
 const handleGetSavedProperty = async (req, res) => {
 
     try {
-        const savedProperty = new SavedProperty({
-            user:req.user.userId,
-            property:req.body.propertyId
-        });
-        await savedProperty.save();
+         const allSavedProperty = await saveProperty.find();
 
-        res.status(200).json({message:"search successful"})
+        res.status(200).json({
+            message:"search successful",
+            allSavedProperty
+        })
+        // const savedProperty = new SavedProperty({
+        //     user:req.user.userId,
+        //     property:req.body.propertyId
+        // });
+        // await savedProperty.save();
+
+        // res.status(200).json({message:"search successful"})
 
     } catch (error) {
         res.status(400).json({massage:"error message"})
@@ -265,17 +272,24 @@ const handleRemoveSaveProperty = async (req, res) => {
 const handleUserViewByPropertyId = async (req, res) => {
 
     try {
-        const {id} = req.params
+        const id = req.params.id;
 
-        const Property = await pro.findById(id);
-        if(!property) {
+        const Property = await pro.findOne({_id:id});
+        console.log(pro,"property");
+
+       res.status(200).json({
+            message: "search successful",
+            property:Property,
+        });
+
+         if(!Property) {
             return console.log({message:"search failed"})
         }
 
-         res.status(200).json({
-            message: "search successful",
-        Property
-    });
+
+       
+
+         
     } catch (error) {
         res.status(400).json({message:"error message."})
         
